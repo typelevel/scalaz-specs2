@@ -6,9 +6,7 @@ organization := "org.typelevel"
 
 scalaVersion := "2.9.2"
 
-crossScalaVersions := Seq("2.9.2", "2.10.0-RC5")
-
-crossVersion := CrossVersion.full
+crossScalaVersions := Seq("2.9.2", "2.10.0")
 
 scalacOptions ++= Seq(
   "-deprecation",
@@ -16,17 +14,17 @@ scalacOptions ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-  "org.scalaz" % "scalaz-core" % "7.0.0-M6" cross CrossVersion.full,
-  "org.specs2" % "specs2" % "1.12.3" cross CrossVersion.full,
-  "org.scalacheck" % "scalacheck" % "1.10.0" cross CrossVersion.full
+  "org.scalaz" %% "scalaz-core" % "7.0.0-M7",
+  "org.specs2" %% "specs2" % "1.12.3",
+  "org.scalacheck" %% "scalacheck" % "1.10.0"
 )
 
 publishTo <<= (version) { v =>
   val nexus = "https://oss.sonatype.org/"
   if (v.trim.endsWith("SNAPSHOT"))
-	Some("Snapshots" at nexus + "content/repositories/snapshots")
+    Some("Snapshots" at nexus + "content/repositories/snapshots")
   else
-	Some("Releases" at nexus + "service/local/staging/deploy/maven2")
+    Some("Releases" at nexus + "service/local/staging/deploy/maven2")
 }
 
 credentials += Credentials(
