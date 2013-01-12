@@ -29,15 +29,11 @@ libraryDependencies +=
 ScalazMatchers
 --------------
 
-The `ScalazMatchers` trait provides simple matchers for:
-
-* Values with an `Equal` typeclass
-* Scalaz `Semigroup` and `Monoid` instances
-* Scalaz `Validation` instances
-
 With the `ScalazMatchers` trait you can use your `Equal[T]` typeclass instance to check the equality of 2 values:
 
 * `a must beEqualTo(b)`
+
+### Features specific to 6.0.x
 
 With the `ScalazMatchers` trait you can use the following ScalaCheck properties:
 
@@ -45,7 +41,12 @@ With the `ScalazMatchers` trait you can use the following ScalaCheck properties:
 * `monoid.hasZero` checks if a `Monoid` zero value is really a neutral element
 * `monoid.isMonoid` checks if a `Monoid` has a zero element and respects the associativity rule
 
-Finally, you can check `Validation` instances for success or failure:
+This feature is not enabled for 7.0.x, since there is another, more general law checking mechanism in place (see [below](#spec)).
+
+ValidationMatchers
+------------------
+
+With `ValidationMatchers`, you can check `Validation` instances for success or failure:
 
 * `1.success must beSuccessful`
 * `1.fail must beFailing`
@@ -61,3 +62,26 @@ You can also pattern match on this value
 
 * `List(1, 2).success must beSuccessful.like { case 1 :: _ => ok }`
 * `List(1, 2).fail must beFailing.like { case 1 :: _ => ok }`
+
+Spec
+----
+
+### Features specific to 7.0.x
+
+The following example illustrates how to verify type class instances for your own datatypes under the assumption that they are in scope.
+
+```scala
+class TryTest extends Spec {
+
+  implicit def TryArbitrary[A](implicit a: Arbitrary[A]): Arbitrary[Try[A]] =
+    // ...
+
+  checkAll(monad.laws[Try])
+  checkAll(traverse.laws[Try])
+  checkAll(plus.laws[Try])
+  checkAll(equal.laws[Try[Int]])
+
+}
+```
+
+Internally, it uses ScalaCheck to generate input data.
