@@ -1,6 +1,6 @@
 name := "scalaz6-specs2"
 
-version := "0.1-SNAPSHOT"
+version := "0.1"
 
 organization := "org.typelevel"
 
