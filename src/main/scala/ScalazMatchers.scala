@@ -1,7 +1,7 @@
 package org.specs2.scalaz
 
-import scalaz.{Semigroup, Monoid, Validation, Success, Failure, Scalaz, Equal}
-import scalaz.syntax.monoid._
+import scalaz._
+import Scalaz._
 
 import org.scalacheck.{ Arbitrary, Shrink, Prop }
 
