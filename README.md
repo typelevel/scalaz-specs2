@@ -6,18 +6,23 @@ Specs2 bindings for Scalaz
 Usage
 -----
 
-This library is currently available for Scala 2.10 only, but support for multiple combinations of Scala/Specs2/Scalaz versions is planned.
+This library is currently available for all combinations of the following:
 
-To use the latest snapshot, include the following in your `build.sbt`:
+* Scala 2.9 and 2.10
+* specs2 1.12.3
+* scalaz 6.0.4 and 7.0.0-M7
+
+To use the latest version, include one of the following in your `build.sbt`:
 
 ```scala
-scalaVersion := "2.10.0-RC5"
+// for 7.0.0-M7
+libraryDependencies +=
+  "org.typelevel" % "scalaz-specs2" % "0.1" % "test"
 
-resolvers += Resolver.sonatypeRepo("snapshots")
+// for 6.0.4
+libraryDependencies +=
+  "org.typelevel" % "scalaz6-specs2" % "0.1" % "test"
 
-libraryDependencies ++= Seq(
-  "org.typelevel" % "scalaz-specs2" % "0.1-SNAPSHOT" % "test" cross CrossVersion.full
-)
 ```
 
 
