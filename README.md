@@ -8,7 +8,7 @@ Usage
 
 This library is currently available for all combinations of the following:
 
-* Scala 2.9 and 2.10
+* Scala 2.9.2 and 2.10
 * specs2 1.12.3
 * scalaz 6.0.4 and 7.0.0-M7
 
@@ -16,13 +16,10 @@ To use the latest version, include one of the following in your `build.sbt`:
 
 ```scala
 // for 7.0.0-M7
-libraryDependencies +=
-  "org.typelevel" % "scalaz-specs2" % "0.1" % "test"
+libraryDependencies += "org.typelevel" %% "scalaz-specs2" % "0.1" % "test"
 
 // for 6.0.4
-libraryDependencies +=
-  "org.typelevel" % "scalaz6-specs2" % "0.1" % "test"
-
+libraryDependencies += "org.typelevel" %% "scalaz6-specs2" % "0.1" % "test"
 ```
 
 
