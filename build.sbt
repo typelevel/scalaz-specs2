@@ -13,11 +13,18 @@ scalacOptions ++= Seq(
   "-unchecked"
 )
 
+// https://github.com/sbt/sbt/issues/603
+conflictWarning ~= { cw =>
+  cw.copy(filter = (id: ModuleID) => true, group = (id: ModuleID) => id.organization + ":" + id.name, level = Level.Error, failOnConflict = true)
+}
+
 libraryDependencies ++= Seq(
-  "org.scalaz" %% "scalaz-core" % "7.0.0-M8",
+  "org.scalaz" %% "scalaz-core" % "7.0.0-M9",
   "org.specs2" %% "specs2" % "1.12.3",
   "org.scalacheck" %% "scalacheck" % "1.10.0"
 )
+
+resolvers += Resolver.sonatypeRepo("releases")
 
 publishTo <<= (version) { v =>
   val nexus = "https://oss.sonatype.org/"
