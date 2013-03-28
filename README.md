@@ -28,7 +28,7 @@ ScalazMatchers
 
 With the `ScalazMatchers` trait you can use your `Equal[T]` typeclass instance to check the equality of 2 values:
 
-* `a must beEqualTo(b)`
+* `a must equal(b)`
 
 ### Features specific to 6.0.x
 
