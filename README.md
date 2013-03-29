@@ -3,6 +3,8 @@ scalaz-specs2
 
 Specs2 bindings for Scalaz
 
+[![Build Status](https://travis-ci.org/typelevel/scalaz-specs2.png?branch=master)](http://travis-ci.org/typelevel/scalaz-specs2)
+
 Usage
 -----
 
