@@ -1,6 +1,6 @@
 package org.specs2.scalaz
 
-import scalaz.{Semigroup, Monoid, Validation, Success, Failure, Scalaz, Equal}
+import scalaz.{Semigroup, Monoid, Validation, Success, Failure, Scalaz, Equal, Show}
 import scalaz.syntax.monoid._
 
 import org.scalacheck.{ Arbitrary, Shrink, Prop }
@@ -15,15 +15,21 @@ import org.specs2.execute.ResultLogicalCombinators._
 trait ScalazMatchers extends ScalazBaseMatchers with ScalazBeHaveMatchers { outer: AnyMatchers => }
 
 trait ScalazBaseMatchers extends ScalaCheckMatchers with Expectations with ValidationMatchers { outer: AnyMatchers =>
-
-  /** equality matcher with an Equal typeclass */
-  def equal[T : Equal](t: T): Matcher[T] = beTypedEqualTo(t, implicitly[Equal[T]].equal(_:T,_:T))
-
+  /** Equality matcher with an Equal typeclass */
+  def equal[T : Equal : Show](expected: T): Matcher[T] = new Matcher[T] {
+    def apply[S <: T](actual: Expectable[S]): MatchResult[S] = {
+      val actualT = actual.value.asInstanceOf[T]
+      def test = Equal[T].equal(expected, actualT)
+      def koMessage = "%s !== %s".format(Show[T].shows(actualT), Show[T].shows(expected))
+      def okMessage = "%s === %s".format(Show[T].shows(actualT), Show[T].shows(expected))
+      Matcher.result(test, okMessage, koMessage, actual)
+    }
+  }
 }
 
 trait ScalazBeHaveMatchers { outer: ScalazMatchers with AnyMatchers =>
-  implicit def scalazBeHaveMatcher[T : Equal](result: MatchResult[T]) = new ScalazBeHaveMatchers(result)
-  class ScalazBeHaveMatchers[T : Equal](result: MatchResult[T]) {
-    def equal(t: T) = result(outer.equal(t))
+  implicit def scalazBeHaveMatcher[T : Equal : Show](result: MatchResult[T]) = new ScalazBeHaveMatchers(result)
+  class ScalazBeHaveMatchers[T : Equal : Show](result: MatchResult[T]) {
+    def equal(t: T) = result(outer.equal[T](t)(Equal[T], Show[T]))
   }
 }

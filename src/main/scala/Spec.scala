@@ -1,7 +1,5 @@
 package org.specs2.scalaz
 
-import scalaz.{Show, Equal}
-
 import org.specs2.matcher._
 import org.specs2.mutable.FragmentsBuilder
 import org.specs2.data.NoTuplesToSeq
@@ -23,16 +21,6 @@ trait Spec
   addArguments(fullStackTrace)
 
   def is = fragments
-
-  def be_===[T: Show : Equal](expected: T): Matcher[T] = new Matcher[T] {
-    def apply[S <: T](actual: Expectable[S]): MatchResult[S] = {
-      val actualT = actual.value.asInstanceOf[T]
-      def test = Equal[T].equal(expected, actualT)
-      def koMessage = "%s !== %s".format(Show[T].shows(actualT), Show[T].shows(expected))
-      def okMessage = "%s === %s".format(Show[T].shows(actualT), Show[T].shows(expected))
-      Matcher.result(test, okMessage, koMessage, actual)
-    }
-  }
 
   override implicit val defaultParameters = Parameters(defaultValues.updated(maxSize, 10).updated(minTestsOk, 100))
 
