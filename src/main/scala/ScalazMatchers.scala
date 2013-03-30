@@ -12,9 +12,7 @@ import org.specs2.execute.ResultLogicalCombinators._
 /**
  * This trait provides matchers for some Scalaz (http://github.com/scalaz) types.
  */
-trait ScalazMatchers extends ScalazBaseMatchers with ScalazBeHaveMatchers { outer: AnyMatchers => }
-
-trait ScalazBaseMatchers extends ScalaCheckMatchers with Expectations with ValidationMatchers { outer: AnyMatchers =>
+trait ScalazMatchers extends ScalaCheckMatchers with Expectations with ValidationMatchers { outer: AnyMatchers =>
   /** Equality matcher with an Equal typeclass */
   def equal[T : Equal : Show](expected: T): Matcher[T] = new Matcher[T] {
     def apply[S <: T](actual: Expectable[S]): MatchResult[S] = {
@@ -25,11 +23,10 @@ trait ScalazBaseMatchers extends ScalaCheckMatchers with Expectations with Valid
       Matcher.result(test, okMessage, koMessage, actual)
     }
   }
-}
 
-trait ScalazBeHaveMatchers { outer: ScalazMatchers with AnyMatchers =>
-  implicit def scalazBeHaveMatcher[T : Equal : Show](result: MatchResult[T]) = new ScalazBeHaveMatchers(result)
   class ScalazBeHaveMatchers[T : Equal : Show](result: MatchResult[T]) {
     def equal(t: T) = result(outer.equal[T](t)(Equal[T], Show[T]))
   }
+
+  implicit def scalazBeHaveMatcher[T : Equal : Show](result: MatchResult[T]) = new ScalazBeHaveMatchers(result)
 }
