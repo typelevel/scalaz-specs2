@@ -56,3 +56,5 @@ trait Spec
       (3, A.arbitrary.map(a => (_: Int) => a))
     ))
 }
+
+// vim: expandtab:ts=2:sw=2

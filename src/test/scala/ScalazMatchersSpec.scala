@@ -21,3 +21,5 @@ class ScalazMatchersSpec extends Specification with ScalazMatchers {
     (new Foo("asdf") must      equal(new Foo("asdf"))) and
     (new Foo("asdf") must   be equal(new Foo("asdf")))
 }
+
+// vim: expandtab:ts=2:sw=2
