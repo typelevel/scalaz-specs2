@@ -6,11 +6,7 @@ import org.specs2.matcher._
 import org.specs2.text.Quote._
 import org.specs2.execute.{ Failure, Result }
 
-trait ValidationMatchers extends ValidationBaseMatchers with ValidationBeHaveMatchers
-object ValidationMatchers extends ValidationMatchers
-
-private[specs2]
-trait ValidationBaseMatchers {
+trait ValidationMatchers { outer =>
 
   def beSuccessful[T](t: => T) =
     new Matcher[Validation[_, T]] {
@@ -26,6 +22,7 @@ trait ValidationBaseMatchers {
     }
 
   def beSuccessful[T] = new SuccessValidationMatcher[T]
+
   class SuccessValidationMatcher[T] extends Matcher[Validation[_, T]] {
     def apply[S <: Validation[_, T]](value: Expectable[S]) = {
       result(
@@ -38,9 +35,7 @@ trait ValidationBaseMatchers {
 
     def like(f: PartialFunction[T, MatchResult[_]]) = this and partialMatcher(f)
 
-    private def partialMatcher(f: PartialFunction[T, MatchResult[_]]) =
-      new Matcher[Validation[_, T]] {
-
+    private def partialMatcher(f: PartialFunction[T, MatchResult[_]]) = new Matcher[Validation[_, T]] {
       def apply[S <: Validation[_, T]](value: Expectable[S]) = {
         val res: Result = value.value match {
           case ZSuccess(t) if f.isDefinedAt(t)  => f(t).toResult
@@ -85,9 +80,7 @@ trait ValidationBaseMatchers {
 
     def like(f: PartialFunction[T, MatchResult[_]]) = this and partialMatcher(f)
 
-    private def partialMatcher(f: PartialFunction[T, MatchResult[_]]) =
-      new Matcher[Validation[T, _]] {
-
+    private def partialMatcher(f: PartialFunction[T, MatchResult[_]]) = new Matcher[Validation[T, _]] {
       def apply[S <: Validation[T, _]](value: Expectable[S]) = {
         val res: Result = value.value match {
           case ZFailure(t) if f.isDefinedAt(t)  => f(t).toResult
@@ -95,7 +88,7 @@ trait ValidationBaseMatchers {
           case other                            => Failure("no match")
         }
         result(
-          res.isSuccess, //specs2's Result#isSuccess method!
+          !res.isSuccess,
           value.description + " is Failure[T] and " + res.message,
           value.description + " is Failure[T] but " + res.message,
           value
@@ -106,9 +99,6 @@ trait ValidationBaseMatchers {
 
   def failing[T](t: => T) = beFailing(t)
   def failing[T] = beFailing
-}
-
-private[specs2] trait ValidationBeHaveMatchers { outer: ValidationBaseMatchers =>
 
   implicit def toValidationResultMatcher[F, S](result: MatchResult[Validation[F, S]]) =
     new ValidationResultMatcher(result)
@@ -125,3 +115,5 @@ private[specs2] trait ValidationBeHaveMatchers { outer: ValidationBaseMatchers =
     def beSuccessful = result(outer.beSuccessful)
   }
 }
+
+// vim: expandtab:ts=2:sw=2

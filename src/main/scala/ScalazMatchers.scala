@@ -3,52 +3,27 @@ package org.specs2.scalaz
 import scalaz._
 import Scalaz._
 
-import org.scalacheck.{ Arbitrary, Shrink, Prop }
-
 import org.specs2.matcher._
-import org.specs2.matcher.MatchResultLogicalCombinators._
-import org.specs2.execute.ResultLogicalCombinators._
 
-/**
- * This trait provides matchers for some Scalaz (http://github.com/scalaz) types.
- */
-trait ScalazMatchers extends ScalazBaseMatchers with ScalazBeHaveMatchers { outer: AnyMatchers => }
+trait ScalazMatchers extends ValidationMatchers { outer =>
 
-trait ScalazBaseMatchers extends ScalaCheckMatchers with Expectations with ValidationMatchers { outer: AnyMatchers =>
-
-  implicit def semigroupProperty[T](implicit s: Semigroup[T]): SemigroupProperty[T] = new SemigroupProperty[T]()(s)
-  class SemigroupProperty[T]()(implicit sg: Semigroup[T]) {
-    def isAssociative(implicit a: Arbitrary[T], s: Shrink[T]) = outer.isAssociative
-    def isSemigroup(implicit a: Arbitrary[T], s: Shrink[T])   = outer.isAssociative
-  }
-
-  implicit def monoidProperty[T](m: Monoid[T]): MonoidProperty[T] = new MonoidProperty[T]()(m)
-  class MonoidProperty[T]()(implicit m: Monoid[T]) extends SemigroupProperty()(m) {
-    def isMonoid(implicit a: Arbitrary[T], s: Shrink[T]) = outer.isMonoid
-    def hasNeutralElement(implicit a: Arbitrary[T], s: Shrink[T]) = outer.hasZero
-  }
-
-  /** this ScalaCheck property is valid if the semigroup is associative */
-  def isAssociative[T](implicit sg: Semigroup[T], a: Arbitrary[T], s: Shrink[T]): Prop =
-    prop { (b1: T, b2: T, b3: T) => be_==(b1 |+| (b2 |+| b3)).apply(createExpectable((b1 |+| b2) |+| b3)) }
-
-  /** this ScalaCheck property is valid if the monoid has a Zero element */
-  def hasZero[T](implicit m: Monoid[T], a: Arbitrary[T], s: Shrink[T]): Prop =
-    prop { (t: T) =>
-      be_==(t |+| m.zero).apply(createExpectable(t)) and be_==(m.zero |+| t).apply(createExpectable(t))
+  /** Equality matcher with a [[scalaz.Equal]] typeclass */
+  def equal[T : Equal : Show](expected: T): Matcher[T] = new Matcher[T] {
+    def apply[S <: T](actual: Expectable[S]): MatchResult[S] = {
+      val actualT = actual.value.asInstanceOf[T]
+      def test = implicitly[Equal[T]].equal(expected, actualT)
+      def koMessage = "%s !== %s".format(actualT.shows, expected.shows)
+      def okMessage = "%s === %s".format(actualT.shows, expected.shows)
+      Matcher.result(test, okMessage, koMessage, actual)
     }
-
-  /** this ScalaCheck property is valid if the monoid verifies the monoid laws */
-  def isMonoid[T](implicit m: Monoid[T], a: Arbitrary[T], s: Shrink[T]) = isAssociative && hasZero
-
-  /** equality matcher with an Equal typeclass */
-  def equal[T : Equal](t: T): Matcher[T] = beTypedEqualTo(t, implicitly[Equal[T]].equal(_:T,_:T))
-
-}
-
-trait ScalazBeHaveMatchers { outer: ScalazMatchers with AnyMatchers =>
-  implicit def scalazBeHaveMatcher[T : Equal](result: MatchResult[T]) = new ScalazBeHaveMatchers(result)
-  class ScalazBeHaveMatchers[T : Equal](result: MatchResult[T]) {
-    def equal(t: T) = result(outer.equal(t))
   }
+
+  class ScalazBeHaveMatchers[T : Equal : Show](result: MatchResult[T]) {
+    def equal(t: T) = result(outer.equal[T](t)(implicitly[Equal[T]], implicitly[Show[T]]))
+  }
+
+  implicit def scalazBeHaveMatcher[T : Equal : Show](result: MatchResult[T]) = new ScalazBeHaveMatchers(result)
+
 }
+
+// vim: expandtab:ts=2:sw=2
