@@ -50,15 +50,20 @@ pomExtra := (
     </license>
   </licenses>
   <scm>
-    <url>https://github.com/larsrh/scalaz-specs2</url>
-    <connection>scm:git:git://github.com/larsrh/scalaz-specs2.git</connection>
-    <developerConnection>scm:git:git@github.com:larsrh/scalaz-specs2.git</developerConnection>
+    <url>https://github.com/typelevel/scalaz-specs2</url>
+    <connection>scm:git:git://github.com/typelevel/scalaz-specs2.git</connection>
+    <developerConnection>scm:git:git@github.com:typelevel/scalaz-specs2.git</developerConnection>
   </scm>
   <developers>
     <developer>
       <id>larsrh</id>
       <name>Lars Hupel</name>
       <url>https://github.com/larsrh</url>
+    </developer>
+    <developer>
+      <id>arosien</id>
+      <name>Adam Rosien</name>
+      <url>https://github.com/arosien</url>
     </developer>
   </developers>
 )
