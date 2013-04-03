@@ -25,4 +25,6 @@ trait ScalazMatchers extends ValidationMatchers { outer =>
 
 }
 
+object ScalazMatchers extends ScalazMatchers
+
 // vim: expandtab:ts=2:sw=2

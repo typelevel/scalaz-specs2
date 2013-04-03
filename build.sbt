@@ -19,7 +19,7 @@ conflictWarning ~= { cw =>
 }
 
 libraryDependencies ++= Seq(
-  "org.scalaz" %% "scalaz-core" % "7.0.0-M9",
+  "org.scalaz" %% "scalaz-core" % "7.0.0-RC1",
   "org.specs2" %% "specs2" % "1.12.3",
   "org.scalacheck" %% "scalacheck" % "1.10.0"
 )
