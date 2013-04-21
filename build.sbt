@@ -4,25 +4,32 @@ version := "0.2-SNAPSHOT"
 
 organization := "org.typelevel"
 
+licenses := Seq("MIT" → url("http://www.opensource.org/licenses/mit-license.php"))
+
+homepage := Some(url("http://typelevel.org/"))
+
 scalaVersion := "2.9.2"
 
-crossScalaVersions := Seq("2.9.2", "2.10.0")
+crossScalaVersions := Seq("2.9.2", "2.9.3", "2.10.1")
 
 scalacOptions ++= Seq(
   "-deprecation",
   "-unchecked"
 )
 
-// https://github.com/sbt/sbt/issues/603
-conflictWarning ~= { cw =>
-  cw.copy(filter = (id: ModuleID) => true, group = (id: ModuleID) => id.organization + ":" + id.name, level = Level.Error, failOnConflict = true)
-}
-
 libraryDependencies ++= Seq(
-  "org.scalaz" %% "scalaz-core" % "7.0.0-RC1",
-  "org.specs2" %% "specs2" % "1.12.3",
+  "org.scalaz" %% "scalaz-core" % "7.0.0",
   "org.scalacheck" %% "scalacheck" % "1.10.0"
 )
+
+libraryDependencies <+= (scalaVersion) { sv =>
+  val specsVersion =
+    if (sv startsWith "2.9")
+      "1.12.4.1"
+    else
+      "1.12.3"
+  "org.specs2" %% "specs2" % specsVersion
+}
 
 resolvers += Resolver.sonatypeRepo("releases")
 
@@ -41,18 +48,9 @@ credentials += Credentials(
 pomIncludeRepository := Function.const(false)
 
 pomExtra := (
-  <url>http://typelevel.org/scalaz</url>
-  <licenses>
-    <license>
-      <name>MIT</name>
-      <url>http://www.opensource.org/licenses/mit-license.php</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
   <scm>
     <url>https://github.com/typelevel/scalaz-specs2</url>
     <connection>scm:git:git://github.com/typelevel/scalaz-specs2.git</connection>
-    <developerConnection>scm:git:git@github.com:typelevel/scalaz-specs2.git</developerConnection>
   </scm>
   <developers>
     <developer>
