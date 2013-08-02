@@ -88,7 +88,7 @@ trait ValidationMatchers { outer =>
           case other                            => Failure("no match")
         }
         result(
-          !res.isSuccess,
+          res.isSuccess,
           value.description + " is Failure[T] and " + res.message,
           value.description + " is Failure[T] but " + res.message,
           value
