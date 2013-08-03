@@ -10,6 +10,7 @@ class ValidationMatchersSpec extends Specification with ValidationMatchers {
     "beFailing matches Failure"    ! failureMatches
 
   def successMatches =
+    (Validation.success(3) must     beSuccessful.like{case a => a must_== 3}) and
     (Validation.success(3) must     beSuccessful)     and
     (Validation.success(3) must     beSuccessful(3))  and
     (Validation.failure(3) must not beSuccessful)     and
@@ -18,6 +19,7 @@ class ValidationMatchersSpec extends Specification with ValidationMatchers {
     (Validation.failure(3) must not be successful)
 
   def failureMatches =
+    (Validation.failure(3) must     beFailing.like{case a => a must_== 3}) and
     (Validation.success(3) must not beFailing)     and
     (Validation.failure(3) must     beFailing)     and
     (Validation.failure(3) must     beFailing(3))  and
