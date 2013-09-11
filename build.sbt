@@ -10,7 +10,7 @@ homepage := Some(url("http://typelevel.org/"))
 
 scalaVersion := "2.9.2"
 
-crossScalaVersions := Seq("2.9.2", "2.9.3", "2.10.1")
+crossScalaVersions := Seq("2.9.2", "2.9.3", "2.10.2")
 
 scalacOptions ++= Seq(
   "-deprecation",
@@ -18,7 +18,7 @@ scalacOptions ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-  "org.scalaz" %% "scalaz-core" % "7.0.0",
+  "org.scalaz" %% "scalaz-core" % "7.0.3",
   "org.scalacheck" %% "scalacheck" % "1.10.0"
 )
 
