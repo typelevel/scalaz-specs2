@@ -12,13 +12,13 @@ This library is currently available for all combinations of the following:
 
 * Scala 2.9.2 and 2.10
 * specs2 1.12.3
-* scalaz 6.0.4 and 7.0.0-RC1
+* scalaz 6.0.4 and 7.0.x
 
 To use the latest version, include one of the following in your `build.sbt`:
 
 ```scala
-// for 7.0.0-RC1
-libraryDependencies += "org.typelevel" %% "scalaz-specs2" % "0.1.3" % "test"
+// for 7.0.x
+libraryDependencies += "org.typelevel" %% "scalaz-specs2" % "0.1.5" % "test"
 
 // for 6.0.4
 libraryDependencies += "org.typelevel" %% "scalaz6-specs2" % "0.1" % "test"
