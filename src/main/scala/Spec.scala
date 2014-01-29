@@ -22,8 +22,6 @@ trait Spec
 
   def is = fragments
 
-  override implicit val defaultParameters = Parameters(defaultValues.updated(maxSize, 10).updated(minTestsOk, 100))
-
   def checkAll(name: String, props: Properties)(implicit p: Parameters) {
     addFragments(name + " " + props.name,
       for ((name, prop) <- props.properties) yield { name in check(prop)(p)}

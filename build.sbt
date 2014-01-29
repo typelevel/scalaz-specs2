@@ -1,6 +1,6 @@
 name := "scalaz-specs2"
 
-version := "0.2-SNAPSHOT"
+version := "0.3-SNAPSHOT"
 
 organization := "org.typelevel"
 
@@ -8,9 +8,9 @@ licenses := Seq("MIT" → url("http://www.opensource.org/licenses/mit-license.ph
 
 homepage := Some(url("http://typelevel.org/"))
 
-scalaVersion := "2.9.2"
+scalaVersion := "2.10.3"
 
-crossScalaVersions := Seq("2.9.2", "2.9.3", "2.10.2")
+crossScalaVersions := Seq("2.9.2", "2.9.3", "2.10.2", "2.10.3")
 
 scalacOptions ++= Seq(
   "-deprecation",
@@ -27,7 +27,7 @@ libraryDependencies <+= (scalaVersion) { sv =>
     if (sv startsWith "2.9")
       "1.12.4.1"
     else
-      "1.12.3"
+      "2.2.2"
   "org.specs2" %% "specs2" % specsVersion
 }
 
