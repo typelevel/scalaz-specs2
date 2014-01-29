@@ -22,8 +22,6 @@ trait Spec
 
   def is = fragments
 
-  override implicit val defaultParameters = Parameters(defaultValues.updated(maxSize, 10).updated(minTestsOk, 100))
-
   def checkAll(name: String, props: Properties)(implicit p: Parameters) {
     addFragments(name + " " + props.name,
       for ((name, prop) <- props.properties) yield { name in check(prop)(p)}
@@ -38,6 +36,7 @@ trait Spec
     )
   }
 
+  import scala.language.implicitConversions
   implicit def enrichProperties(props: Properties) = new {
     def withProp(propName: String, prop: Prop) = new Properties(props.name) {
       for {(name, p) <- props.properties} property(name) = p
@@ -51,8 +50,8 @@ trait Spec
    */
   implicit def Function1IntInt[A](implicit A: Arbitrary[Int]): Arbitrary[Int => Int] =
     Arbitrary(Gen.frequency[Int => Int](
-      (1, Gen.value((x: Int) => x)),
-      (1, Gen.value((x: Int) => x + 1)),
+      (1, Gen.const((x: Int) => x)),
+      (1, Gen.const((x: Int) => x + 1)),
       (3, A.arbitrary.map(a => (_: Int) => a))
     ))
 }
