@@ -26,7 +26,7 @@ libraryDependencies ++= Seq(
 resolvers += Resolver.sonatypeRepo("releases")
 
 publishTo <<= (version) { v =>
-  val nexus = "http://nexus.banno.com/nexus/"
+  val nexus = "https://oss.sonatype.org/"
   if (v.trim.endsWith("SNAPSHOT"))
     Some("Snapshots" at nexus + "content/repositories/snapshots")
   else
