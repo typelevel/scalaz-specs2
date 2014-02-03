@@ -100,6 +100,7 @@ trait ValidationMatchers { outer =>
   def failing[T](t: => T) = beFailing(t)
   def failing[T] = beFailing
 
+  import scala.language.implicitConversions
   implicit def toValidationResultMatcher[F, S](result: MatchResult[Validation[F, S]]) =
     new ValidationResultMatcher(result)
 

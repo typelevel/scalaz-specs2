@@ -21,8 +21,8 @@ trait ScalazMatchers extends ValidationMatchers { outer =>
     def equal(t: T) = result(outer.equal[T](t)(Equal[T], Show[T]))
   }
 
+  import scala.language.implicitConversions
   implicit def scalazBeHaveMatcher[T : Equal : Show](result: MatchResult[T]) = new ScalazBeHaveMatchers(result)
-
 }
 
 object ScalazMatchers extends ScalazMatchers
