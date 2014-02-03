@@ -10,7 +10,7 @@ homepage := Some(url("http://typelevel.org/"))
 
 scalaVersion := "2.10.3"
 
-crossScalaVersions := Seq("2.9.2", "2.9.3", "2.10.2", "2.10.3")
+crossScalaVersions := Seq("2.10.3", "2.11.0-M8")
 
 scalacOptions ++= Seq(
   "-deprecation",
@@ -18,23 +18,15 @@ scalacOptions ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-  "org.scalaz" %% "scalaz-core" % "7.0.3",
-  "org.scalacheck" %% "scalacheck" % "1.10.0"
+  "org.scalaz" %% "scalaz-core" % "7.0.5",
+  "org.scalacheck" %% "scalacheck" % "1.11.3",
+  "org.specs2" %% "specs2" % "2.3.7"
 )
-
-libraryDependencies <+= (scalaVersion) { sv =>
-  val specsVersion =
-    if (sv startsWith "2.9")
-      "1.12.4.1"
-    else
-      "2.2.2"
-  "org.specs2" %% "specs2" % specsVersion
-}
 
 resolvers += Resolver.sonatypeRepo("releases")
 
 publishTo <<= (version) { v =>
-  val nexus = "https://oss.sonatype.org/"
+  val nexus = "http://nexus.banno.com/nexus/"
   if (v.trim.endsWith("SNAPSHOT"))
     Some("Snapshots" at nexus + "content/repositories/snapshots")
   else
