@@ -4,10 +4,12 @@ import scalaz._
 
 import org.specs2.Specification
 
-class ValidationMatchersSpec extends Specification with ValidationMatchers {
-  def is =
-    "beSuccessful matches Success" ! successMatches ^
-    "beFailing matches Failure"    ! failureMatches
+class ValidationMatchersSpec extends Specification with ValidationMatchers { def is = s2"""
+  beSuccessful should
+    match Success                 $successMatches
+
+  beFailing should
+    match Failure                 $failureMatches"""
 
   def successMatches =
     (Validation.success(3) must     beSuccessful.like{case a => a must_== 3}) and

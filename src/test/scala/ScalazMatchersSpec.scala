@@ -2,14 +2,14 @@ package org.specs2.scalaz
 
 import org.specs2.Specification
 
-class ScalazMatchersSpec extends Specification with ScalazMatchers {
+class ScalazMatchersSpec extends Specification with ScalazMatchers { def is = s2"""
+  equal[T : Equal : Show] should
+    match via Equal[T]                $equalMatches"""
+
   import scalaz.{Scalaz, Equal, Show}
   import scalaz.Equal._
   import scalaz.Show._
   import scalaz.std.string._
-
-  def is =
-    "equal[T : Equal : Show] matches via Equal[T]" ! equalMatches
 
   class Foo(val bar: String)
   implicit val EqualFoo: Equal[Foo] = equalBy(_.bar)
