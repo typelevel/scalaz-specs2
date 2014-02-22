@@ -4,10 +4,12 @@ import scalaz.\/
 
 import org.specs2.Specification
 
-class DisjunctionMatchersSpec extends Specification with DisjunctionMatchers {
-  def is =
-    "beRightDisjunction matches \\/-" ! rightMatches ^
-    "beLeftDisjunction matches -\\/"    ! leftMatches
+class DisjunctionMatchersSpec extends Specification with DisjunctionMatchers { def is = s2"""
+  beRightDisjunction should
+    match \/-                     $rightMatches
+
+  beLeftDisjunction should
+    match -\/                     $leftMatches"""
 
   def rightMatches =
     (\/.right(3) must     beRightDisjunction.like{
