@@ -4,7 +4,7 @@ import scalaz._
 
 import org.specs2.matcher._
 
-trait ScalazMatchers extends ValidationMatchers { outer =>
+trait ScalazMatchers extends ValidationMatchers with DisjunctionMatchers { outer =>
 
   /** Equality matcher with a [[scalaz.Equal]] typeclass */
   def equal[T : Equal : Show](expected: T): Matcher[T] = new Matcher[T] {
