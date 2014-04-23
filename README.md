@@ -8,20 +8,13 @@ Specs2 bindings for Scalaz
 Usage
 -----
 
-This library is currently available for all combinations of the following:
-
-* Scala 2.9.2 and 2.10
-* specs2 1.12.3
-* scalaz 6.0.4 and 7.0.x
+This library is currently available for Scala binary versions 2.10 and 2.11.
 
 To use the latest version, include one of the following in your `build.sbt`:
 
 ```scala
-// for 7.0.x
-libraryDependencies += "org.typelevel" %% "scalaz-specs2" % "0.1.5" % "test"
-
-// for 6.0.4
-libraryDependencies += "org.typelevel" %% "scalaz6-specs2" % "0.1" % "test"
+// for Scalaz 7.0.x and specs2 2.3
+libraryDependencies += "org.typelevel" %% "scalaz-specs2" % "0.2" % "test"
 ```
 
 
@@ -31,16 +24,6 @@ ScalazMatchers
 With the `ScalazMatchers` trait you can use your `Equal[T]` typeclass instance to check the equality of 2 values:
 
 * `a must equal(b)`
-
-### Features specific to 6.0.x
-
-With the `ScalazMatchers` trait you can use the following ScalaCheck properties:
-
-* `semigroup.isAssociative` checks if a `Semigroup` respects the associativity law
-* `monoid.hasZero` checks if a `Monoid` zero value is really a neutral element
-* `monoid.isMonoid` checks if a `Monoid` has a zero element and respects the associativity rule
-
-This feature is not enabled for 7.0.x, since there is another, more general law checking mechanism in place (see [below](#spec)).
 
 ValidationMatchers
 ------------------
@@ -64,8 +47,6 @@ You can also pattern match on this value
 
 Spec
 ----
-
-### Features specific to 7.0.x
 
 The following example illustrates how to verify type class instances for your own datatypes under the assumption that they are in scope.
 
