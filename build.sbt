@@ -1,10 +1,4 @@
-import sbtrelease._
-import sbtrelease.ReleasePlugin._
-import sbtrelease.ReleasePlugin.ReleaseKeys._
-import sbtrelease.ReleaseStateTransformations._
-import sbtrelease.Utilities._
-
-import com.typesafe.sbt.pgp.PgpKeys._
+import org.typelevel.sbt._
 
 // Build configuration
 
@@ -16,9 +10,9 @@ licenses := Seq("MIT" → url("http://www.opensource.org/licenses/mit-license.ph
 
 homepage := Some(url("http://typelevel.org/"))
 
-scalaVersion := "2.10.3"
+scalaVersion := "2.11.2"
 
-crossScalaVersions := Seq("2.10.3", "2.11.0")
+crossScalaVersions := Seq("2.10.4", "2.11.2")
 
 scalacOptions ++= Seq(
   "-deprecation",
@@ -26,74 +20,24 @@ scalacOptions ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-  "org.scalaz" %% "scalaz-core" % "7.0.6",
-  "org.scalacheck" %% "scalacheck" % "1.11.3",
-  "org.specs2" %% "specs2" % "2.3.11"
+  "org.scalaz" %% "scalaz-core" % "7.1.0",
+  "org.scalacheck" %% "scalacheck" % "1.11.4",
+  "org.specs2" %% "specs2" % "2.4"
 )
 
-// Release plugin
+resolvers += Resolver.sonatypeRepo("releases")
 
-lazy val publishSignedArtifacts = ReleaseStep(
-  action = st => {
-    val extracted = st.extract
-    val ref = extracted.get(thisProjectRef)
-    extracted.runAggregated(publishSigned in Global in ref, st)
-  },
-  check = st => {
-    // getPublishTo fails if no publish repository is set up.
-    val ex = st.extract
-    val ref = ex.get(thisProjectRef)
-    Classpaths.getPublishTo(ex.get(publishTo in Global in ref))
-    st
-  },
-  enableCrossBuild = true
+// sbt-typelevel plugin
+
+typelevelDefaultSettings
+
+TypelevelKeys.githubProject := ("typelevel", "scalaz-specs2")
+
+TypelevelKeys.githubDevs ++= Seq(
+  Developer("Lars Hupel", "larsrh"),
+  Developer("Adam Rosien", "arosien")
 )
 
-releaseSettings
+typelevelBuildInfoSettings
 
-releaseProcess := Seq[ReleaseStep](
-  checkSnapshotDependencies,
-  inquireVersions,
-  runTest,
-  setReleaseVersion,
-  commitReleaseVersion,
-  tagRelease,
-  publishSignedArtifacts,
-  setNextVersion,
-  commitNextVersion
-)
-
-// Publishing
-
-publishTo <<= (version).apply { v =>
-  val nexus = "https://oss.sonatype.org/"
-  if (v.trim.endsWith("SNAPSHOT"))
-    Some("Snapshots" at nexus + "content/repositories/snapshots")
-  else
-    Some("Releases" at nexus + "service/local/staging/deploy/maven2")
-}
-
-credentials += Credentials(
-  Option(System.getProperty("build.publish.credentials")) map (new File(_)) getOrElse (Path.userHome / ".ivy2" / ".credentials")
-)
-
-pomIncludeRepository := Function.const(false)
-
-pomExtra := (
-  <scm>
-    <url>https://github.com/typelevel/scalaz-specs2</url>
-    <connection>scm:git:git://github.com/typelevel/scalaz-specs2.git</connection>
-  </scm>
-  <developers>
-    <developer>
-      <id>larsrh</id>
-      <name>Lars Hupel</name>
-      <url>https://github.com/larsrh</url>
-    </developer>
-    <developer>
-      <id>arosien</id>
-      <name>Adam Rosien</name>
-      <url>https://github.com/arosien</url>
-    </developer>
-  </developers>
-)
+buildInfoPackage := "org.specs2.scalaz"

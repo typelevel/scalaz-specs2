@@ -1,3 +1,3 @@
-addSbtPlugin("com.typesafe.sbt" % "sbt-pgp" % "0.8.1")
+resolvers += Resolver.sonatypeRepo("releases")
 
-addSbtPlugin("com.github.gseitz" % "sbt-release" % "0.8")
+addSbtPlugin("org.typelevel" % "sbt-typelevel" % "0.3")
