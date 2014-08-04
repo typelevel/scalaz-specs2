@@ -38,8 +38,6 @@ TypelevelKeys.githubDevs ++= Seq(
   Developer("Adam Rosien", "arosien")
 )
 
-// Disabled for now because sbt-release can't deal with detached HEAD
-
-// typelevelBuildInfoSettings
+typelevelBuildInfoSettings
 
 buildInfoPackage := "org.specs2.scalaz"
