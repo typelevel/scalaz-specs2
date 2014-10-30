@@ -53,7 +53,9 @@ trait DisjunctionMatchers { outer =>
   }
 
   def rightDisjunction[T](t: => T) = beRightDisjunction(t)
+  def be_\/-[T](t: => T) = beRightDisjunction(t)
   def rightDisjunction[T] = beRightDisjunction
+  def be_\/-[T]: Matcher[\/[_, T]] = beRightDisjunction
 
   def beLeftDisjunction[T](t: => T) = new Matcher[\/[T, _]] {
     def apply[S <: \/[T, _]](value: Expectable[S]) = {
@@ -98,7 +100,9 @@ trait DisjunctionMatchers { outer =>
   }
 
   def leftDisjunction[T](t: => T) = beLeftDisjunction(t)
+  def be_-\/[T](t: => T) = beLeftDisjunction(t)
   def leftDisjunction[T] = beLeftDisjunction
+  def be_-\/[T]: Matcher[\/[T, _]] = beLeftDisjunction
 
   implicit def toDisjunctionResultMatcher[F, S](result: MatchResult[\/[F, S]]) =
     new DisjunctionResultMatcher(result)
@@ -106,13 +110,17 @@ trait DisjunctionMatchers { outer =>
   class DisjunctionResultMatcher[F, S](result: MatchResult[\/[F, S]]) {
     def leftDisjunction(f: => F) = result(outer beLeftDisjunction f)
     def beLeftDisjunction(f: => F) = result(outer beLeftDisjunction f)
+    def be_-\/(f: => F) = result(outer beLeftDisjunction f)
     def rightDisjunction(s: => S) = result(outer beRightDisjunction s)
     def beRightDisjunction(s: => S) = result(outer beRightDisjunction s)
+    def be_\/-(s: => S) = result(outer beRightDisjunction s)
 
     def leftDisjunction = result(outer.beLeftDisjunction)
     def beLeftDisjunction = result(outer.beLeftDisjunction)
+    def be_-\/ = result(outer.beLeftDisjunction)
     def rightDisjunction = result(outer.beRightDisjunction)
     def beRightDisjunction = result(outer.beRightDisjunction)
+    def be_\/- = result(outer.beRightDisjunction)
   }
 }
 
