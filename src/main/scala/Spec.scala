@@ -1,9 +1,8 @@
 package org.specs2.scalaz
 
 import org.specs2.matcher._
-import org.specs2.mutable.FragmentsBuilder
-import org.specs2.data.NoTuplesToSeq
-import org.specs2.specification.{Example, Fragments, BaseSpecification, SpecificationStructure}
+import org.specs2.specification._
+import core._
 import org.specs2.main.{ArgumentsShortcuts, ArgumentsArgs}
 
 import org.scalacheck.{Gen, Arbitrary, Prop, Properties}
@@ -11,29 +10,22 @@ import org.scalacheck.{Gen, Arbitrary, Prop, Properties}
 // Lazy code duplication from scalaz-tests
 
 /** A minimal version of the Specs2 mutable base class */
-trait Spec
-  extends BaseSpecification with FragmentsBuilder with MustExpectations
-  with MustThrownExpectations with ShouldThrownExpectations with ScalaCheckMatchers
+trait Spec extends org.specs2.mutable.Spec with ScalaCheckMatchers
   with MatchersImplicits with StandardMatchResults
-  with ArgumentsShortcuts with ArgumentsArgs
-  with NoTuplesToSeq {
-
-  addArguments(fullStackTrace)
-
-  def is = fragments
+  with ArgumentsShortcuts with ArgumentsArgs {
+    
+  val ff = fragmentFactory; import ff._
+  
+  setArguments(fullStackTrace)
 
   def checkAll(name: String, props: Properties)(implicit p: Parameters) {
-    addFragments(name + " " + props.name,
-      for ((name, prop) <- props.properties) yield { name in check(prop)(p)}
-      , "must satisfy"
-    )
+    addFragment(text(s"$name  ${props.name} must satisfy"))
+    addFragments(props.properties.repeat { case (name, prop) => Fragments(name in check(prop)(p)) })
   }
 
   def checkAll(props: Properties)(implicit p: Parameters) {
-    addFragments(props.name,
-      for ((name, prop) <- props.properties) yield { name in check(prop)(p)}
-      , "must satisfy"
-    )
+    addFragment(text(s"${props.name} must satisfy"))
+    addFragments(props.properties.repeat { case (name, prop) => Fragments(name in check(prop)(p)) })
   }
 
   import scala.language.implicitConversions
