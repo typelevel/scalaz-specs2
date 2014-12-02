@@ -19,6 +19,8 @@ scalacOptions ++= Seq(
   "-unchecked"
 )
 
+scalacOptions in Test ++= Seq("-Yrangepos")
+
 libraryDependencies ++= Seq(
   "org.scalaz" %% "scalaz-core" % "7.1.0",
   "org.scalacheck" %% "scalacheck" % "1.12.0",
