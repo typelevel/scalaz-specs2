@@ -26,7 +26,8 @@ libraryDependencies ++= Seq(
   "org.specs2" %% "specs2-scalacheck" % "3.0-M0"
 )
 
-resolvers += Resolver.sonatypeRepo("releases")
+resolvers ++= Seq(Resolver.sonatypeRepo("releases"),
+                  "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases")
 
 // sbt-typelevel plugin
 
