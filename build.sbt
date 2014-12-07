@@ -10,22 +10,26 @@ licenses := Seq("MIT" → url("http://www.opensource.org/licenses/mit-license.ph
 
 homepage := Some(url("http://typelevel.org/"))
 
-scalaVersion := "2.11.2"
+scalaVersion := "2.11.4"
 
-crossScalaVersions := Seq("2.10.4", "2.11.2")
+crossScalaVersions := Seq("2.10.4", "2.11.4")
 
 scalacOptions ++= Seq(
   "-deprecation",
   "-unchecked"
 )
 
+scalacOptions in Test ++= Seq("-Yrangepos")
+
 libraryDependencies ++= Seq(
   "org.scalaz" %% "scalaz-core" % "7.1.0",
-  "org.scalacheck" %% "scalacheck" % "1.11.4",
-  "org.specs2" %% "specs2" % "2.4"
+  "org.scalacheck" %% "scalacheck" % "1.12.0",
+  "org.specs2" %% "specs2-core" % "3.0-M0",
+  "org.specs2" %% "specs2-scalacheck" % "3.0-M0"
 )
 
-resolvers += Resolver.sonatypeRepo("releases")
+resolvers ++= Seq(Resolver.sonatypeRepo("releases"),
+                  "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases")
 
 // sbt-typelevel plugin
 
