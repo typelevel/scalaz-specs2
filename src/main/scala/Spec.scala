@@ -1,31 +1,53 @@
-package org.specs2.scalaz
+package org.specs2
+package scalaz
 
+import org.specs2.execute.StandardResults
 import org.specs2.matcher._
 import org.specs2.specification._
 import core._
 import org.specs2.main.{ArgumentsShortcuts, ArgumentsArgs}
 
 import org.scalacheck.{Gen, Arbitrary, Prop, Properties}
+import org.specs2.specification.create.FormattingFragments
+import org.specs2.specification.dsl.mutable.{ExampleDsl0, ArgumentsCreation, TextCreation, ActionDsl}
 
 // Lazy code duplication from scalaz-tests
 
-/** A minimal version of the Specs2 mutable base class */
-trait Spec extends org.specs2.mutable.Spec with ScalaCheckMatchers
-  with MatchersImplicits with StandardMatchResults
-  with ArgumentsShortcuts with ArgumentsArgs {
+/** A lighter version of the Specs2 mutable base class */
+abstract class Spec extends org.specs2.specification.core.mutable.SpecificationStructure with ScalaCheckMatchers
+  with ExampleDsl0
+  with TextCreation
+  with ActionDsl
+  with MustThrownExpectations
+  with MatchersImplicits
+  with FormattingFragments
+  with StandardResults with StandardMatchResults
+  with ArgumentsCreation with ArgumentsShortcuts with ArgumentsArgs {
     
-  val ff = fragmentFactory; import ff._
+  private val ff = fragmentFactory; import ff._
   
   setArguments(fullStackTrace)
 
+  addFragment(break)
+
   def checkAll(name: String, props: Properties)(implicit p: Parameters) {
-    addFragment(text(s"$name  ${props.name} must satisfy"))
-    addFragments(props.properties.repeat { case (name, prop) => Fragments(name in check(prop)(p)) })
+    addFragment(text(s"$name ${props.name} must satisfy"))
+    addFragment(break)
+    props.properties.foreach { case (n, prop) =>
+      addFragment(example(n, check(prop)(p)))
+      addFragment(break)
+    }
+    addFragment(break)
   }
 
   def checkAll(props: Properties)(implicit p: Parameters) {
     addFragment(text(s"${props.name} must satisfy"))
-    addFragments(props.properties.repeat { case (name, prop) => Fragments(name in check(prop)(p)) })
+    addFragment(break)
+    props.properties.foreach { case (n, prop) =>
+      addFragment(example(n, check(prop)(p)))
+      addFragment(break)
+    }
+    addFragment(break)
   }
 
   import scala.language.implicitConversions
