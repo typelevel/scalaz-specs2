@@ -10,7 +10,7 @@ licenses := Seq("MIT" → url("http://www.opensource.org/licenses/mit-license.ph
 
 homepage := Some(url("http://typelevel.org/"))
 
-scalaVersion := "2.11.6"
+scalaVersion := "2.11.7"
 
 scalacOptions ++= Seq(
   "-deprecation",
@@ -20,10 +20,10 @@ scalacOptions ++= Seq(
 scalacOptions in Test ++= Seq("-Yrangepos")
 
 libraryDependencies ++= Seq(
-  "org.scalaz" %% "scalaz-core" % "7.1.0",
-  "org.scalacheck" %% "scalacheck" % "1.12.2",
-  "org.specs2" %% "specs2-core" % "3.2",
-  "org.specs2" %% "specs2-scalacheck" % "3.2"
+  "org.scalaz" %% "scalaz-core" % "7.2.0",
+  "org.scalacheck" %% "scalacheck" % "1.12.5",
+  "org.specs2" %% "specs2-core" % "3.7",
+  "org.specs2" %% "specs2-scalacheck" % "3.7"
 )
 
 resolvers ++= Seq(Resolver.sonatypeRepo("releases"),
