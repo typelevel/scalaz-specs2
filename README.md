@@ -45,6 +45,25 @@ You can also pattern match on this value
 * `List(1, 2).success must beSuccessful.like { case 1 :: _ => ok }`
 * `List(1, 2).fail must beFailing.like { case 1 :: _ => ok }`
 
+DisjunctionMatchers
+------------------
+
+With `DisjunctionMatchers`, you can check `\/` instances for left or right:
+
+The below examples are based on this type:
+
+* `val res: String \/ Int = ...`
+
+You can verify what's the value:
+
+* `res must be_\/-.which { r => r must_== 3  }`
+* `res must be_-\/.which { l => l must_== "foo "}`
+
+You can also pattern match on this value
+
+* `res must be_\/-.like { case 3 => ok }`
+* `res must be_-\/.like { case "foo" => Ok }`
+
 Spec
 ----
 
