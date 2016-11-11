@@ -10,7 +10,7 @@ homepage := Some(url("http://typelevel.org/"))
 
 scalaVersion := "2.12.0"
 
-crossScalaVersions := Seq("2.10.6", "2.11.8")
+crossScalaVersions := Seq("2.10.6", "2.11.8", "2.12.0")
 
 scalacOptions ++= Seq(
   "-deprecation",
