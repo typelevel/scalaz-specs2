@@ -10,11 +10,11 @@ Usage
 
 This library is currently available for Scala binary versions 2.10 and 2.11.
 
-To use the latest version, include one of the following in your `build.sbt`:
+To use the latest version, include the following dependency in your `build.sbt`:
 
 ```scala
 // for Scalaz 7.1.x and specs2 2.4
-libraryDependencies += "org.typelevel" %% "scalaz-specs2" % "0.3.0" % "test"
+libraryDependencies += "org.typelevel" %% "scalaz-specs2" % "0.5.0" % "test"
 ```
 
 
