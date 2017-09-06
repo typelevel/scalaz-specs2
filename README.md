@@ -8,12 +8,12 @@ Specs2 bindings for Scalaz
 Usage
 -----
 
-This library is currently available for Scala binary versions 2.10 and 2.11.
+This library is currently available for Scala binary versions 2.10, 2.11, and 2.12.
 
 To use the latest version, include the following dependency in your `build.sbt`:
 
 ```scala
-// for Scalaz 7.1.x and specs2 2.4
+// for Scalaz 7.2.x and specs2 3.9.x
 libraryDependencies += "org.typelevel" %% "scalaz-specs2" % "0.5.0" % "test"
 ```
 
