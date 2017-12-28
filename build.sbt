@@ -16,10 +16,9 @@ scalacOptions ++= Seq(
 scalacOptions in Test ++= Seq("-Yrangepos")
 
 libraryDependencies ++= {
-  // specs2 3.7 is the last version to use scalacheck 1.12.5
-  val specs2Version = "3.9.5"
+  val specs2Version = "4.0.2"
   Seq(
-    "org.scalaz" %% "scalaz-core" % "7.2.15",
+    "org.scalaz" %% "scalaz-core" % "7.2.18",
     "org.scalacheck" %% "scalacheck" % "1.13.5",
     "org.specs2" %% "specs2-core" % specs2Version,
     "org.specs2" %% "specs2-scalacheck" % specs2Version

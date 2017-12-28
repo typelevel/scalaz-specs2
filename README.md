@@ -13,8 +13,8 @@ This library is currently available for Scala binary versions 2.10, 2.11, and 2.
 To use the latest version, include the following dependency in your `build.sbt`:
 
 ```scala
-// for Scalaz 7.2.x and specs2 3.9.x
-libraryDependencies += "org.typelevel" %% "scalaz-specs2" % "0.5.0" % "test"
+// for Scalaz 7.2.x and specs2 4.0.x
+libraryDependencies += "org.typelevel" %% "scalaz-specs2" % "0.5.2" % "test"
 ```
 
 
